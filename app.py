@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import os
 from pathlib import Path
-from expressionRegulier import *
+from expressionRegulier import read_pdf, read_docx, read_image, load_skills, match_skills, match_skills_bert, extract_email
 import re
 
 app = Flask(__name__)
@@ -9,11 +9,7 @@ app = Flask(__name__)
 # Dossier contenant les CVs
 UPLOAD_FOLDER = 'cv_uploads'
 
-# Fonction pour extraire l'email à partir du texte
-def extract_email(text):
-    email_pattern = r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+'
-    matches = re.findall(email_pattern, text)
-    return matches[0] if matches else None
+
 
 @app.route('/match_skills', methods=['POST'])
 def match_skills_api():
