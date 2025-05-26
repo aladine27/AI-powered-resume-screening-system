@@ -50,6 +50,7 @@ def read_docx(file_path):
 def read_image(file_path):
     try:
         return pytesseract.image_to_string(Image.open(file_path), lang='fra')
+        
     except Exception as e:
         print(f"Erreur OCR image : {e}")
         return ""
@@ -125,7 +126,11 @@ def match_skills_bert(text: str, job_skills: set[str], threshold: float = 0.7) -
                 break  # on peut stopper dès qu’un match est trouvé
 
     return matched_skills 
-
+# Fonction pour extraire l'email à partir du texte
+def extract_email(text):
+    email_pattern = r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+'
+    matches = re.findall(email_pattern, text)
+    return matches[0] if matches else None
 # === Fonction de traitement complet ===
 def process_file(file_path):
     ext = Path(file_path).suffix.lower()
@@ -171,5 +176,5 @@ def process_file(file_path):
 
 # === Program principale ===
 if __name__ == "__main__":
-   test_path = r"CV_uploads/sana_Missaoui_Cv.png"
+   test_path = r"CV_uploads/CV_Anglais_Ala.pdf"
    process_file(test_path)
